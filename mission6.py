@@ -10,9 +10,25 @@ from mavsdk.telemetry import LandedState
 
 async def run_tshark(time_start, count, process_list):
     print(f"Starting packet capture {count}...")
-    command = f"tshark -i any -w capture_{count}.pcap"
-    # command = f"tshark -i any -f 'udp or tcp or mavlink' -w capture_{count}.pcap"
+    # command = f"tshark -i any -w capture_{count}.pcap"
+    # command = f"tshark -i any -w capture_{count}.pcap"
+    # command = f"tshark -i any -w capture_{count}.pcap"
+    command = f"tshark -i any -f 'udp or tcp' -w capture_{count}.pcap"
+    #if tshark -r "$pcap_file" -Y "((tcp.srcport in {18570, 14550, 5600, 14580, 14540, 14280, 14558, 13030, 5600, 14550, 4560}) or (udp.srcport in {18570, 14550, 5600, 14580, 14540, 14280, 14558, 13030, 5600, 14550, 4560}) or (tcp.dstport in {18570, 14550, 5600, 14580, 14540, 14280, 14558, 13030, 5600, 14550, 4560}) or (udp.dstport in {18570, 14550, 5600, 14580, 14540, 14280, 14558, 13030, 5600, 14550, 4560}))";
+    #ports = {18570, 14550, 5600, 14580, 14540, 14280, 14558, 13030, 5600, 14550, 4560}
+    # command = f"tshark -i any -f '((tcp.srcport in {ports}) or (udp.srcport in {ports}) or (tcp.dstport in {ports}) or (udp.dstport in {ports}))' -w capture_{count}.pcap"
+    ports = {5600, 13030, 14280, 18570, 14540, 4560, 14580, 14550, 14558}
+    # port_filter = " or ".join([f"(tcp port {port} or udp port {port})" for port in ports])
+    # command = f"tshark -i any -f '{port_filter}' -w capture_{count}.pcap"
+
+    #command = f"tshark -i any -f '(host 127.0.0.1) and (udp or tcp)' -w capture_{count}.pcap"
+    # ports = [18570, 14550, 5600, 14580, 14540, 14280, 14558, 13030, 5600, 14550, 4560]
+    # port_filter = " or ".join(f"port {port}" for port in ports)
+    #command = f"tshark -i any -f '(host 127.0.0.1) and (udp or tcp) and ({port_filter})' -w mission_capture_{count}.pcap"
     process = await asyncio.create_subprocess_shell(command)
+    # process = await asyncio.create_subprocess_shell(command)
+    # command = f"tshark -i any -f 'udp || tcp || mavlink' -w capture_{count}.pcap"
+    # command = f"tshark -i any -f 'udp or tcp' -w capture_{count}.pcap"
     await asyncio.sleep(5)  # Allow some time for tshark to start capturing data
 
     try:
