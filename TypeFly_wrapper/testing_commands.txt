@@ -1,0 +1,41 @@
+	Functions:
+	Functions_copy:
+Connect drone:
+	Functions: Works
+	Functions_copy:
+Ensure_armed_and_take_off:
+	Functions: Worked but errored out
+		Waiting for drone to connect...
+		Drone connected
+		Arming drone...
+		Drone armed
+		Setting maximum ascent rate...
+		Taking off...
+		Drone has taken off
+		Starting position recorded: Lat 38.7368319, Lon -9.137977, Alt 0.0 meters
+		-- Setting initial setpoint
+		Traceback (most recent call last):
+		  File "/home/liu/Downloads/TypeFly/output_3.py", line 31, in <module>
+		    result = asyncio.run(main())
+		  File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+		    return loop.run_until_complete(main)
+		  File "uvloop/loop.pyx", line 1517, in uvloop.loop.Loop.run_until_complete
+		  File "/home/liu/Downloads/TypeFly/output_3.py", line 11, in main
+		    await ensure_armed_and_taken_off()
+		  File "/home/liu/Downloads/TypeFly/functions.py", line 90, in ensure_armed_and_taken_off
+		    await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, 0.0, 0.0))
+		  File "/home/liu/.local/lib/python3.10/site-packages/mavsdk/offboard.py", line 1316, in set_position_ned
+		    response = await self._stub.SetPositionNed(request)
+		  File "/home/liu/.local/lib/python3.10/site-packages/aiogrpc/channel.py", line 40, in __call__
+		    return await fut
+		grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+			status = StatusCode.UNAVAILABLE
+			details = "recvmsg:Connection reset by peer"
+			debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2024-10-03T16:40:22.941226186-04:00", grpc_status:14, grpc_message:"recvmsg:Connection reset by peer"}"
+		>
+		Exception ignored in: <function System.__del__ at 0x7c463db53eb0>
+		Traceback (most recent call last):
+		  File "/home/liu/.local/lib/python3.10/site-packages/mavsdk/system.py", line 88, in __del__
+		  File "/home/liu/.local/lib/python3.10/site-packages/mavsdk/system.py", line 124, in _stop_mavsdk_server
+		ImportError: sys.meta_path is None, Python is likely shutting down
+	Functions_copy:
